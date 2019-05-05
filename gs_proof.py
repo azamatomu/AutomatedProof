@@ -62,6 +62,14 @@ def negLiteral(r, x):
     return (-1) * posLiteral(r, x)
 
 
+def posLiteralUnique(r, x):
+    return (factorial(m)**n)*m + r * m + x + 1
+
+
+def negLiteralUnique(r, x):
+    return (-1) * posLiteralUnique(r, x)
+
+
 def cnfAtLeastOne():
     cnf = []
     for r in allProfiles():
@@ -138,10 +146,7 @@ if __name__ == '__main__':
     rules_res_sp_non = list(itersolve(cnf))
     print(f'\tNumber of which are dictatorial : {len(rules_res_sp_non)}\n')
 
-    #Q2
-    
-
-
+    # Q2
 
     # print(cnf[0])
     # print(len(cnf))
