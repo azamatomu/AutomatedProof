@@ -119,6 +119,24 @@ def cnfNondictatorial():
     return cnf
 
 
+def cnfDefinitionQ():
+    cnf = []
+    for x in allAlternatives():
+        for r in allProfiles():
+            cnf.append([negLiteralUnique(r, x), posLiteral(r, x)])
+            for y in alternatives(lambda y : y != x):
+                cnf.append([negLiteralUnique(r, x), negLiteral(r, y)])
+
+            clause = [posLiteralUnique(r, x), negLiteral(r, x)]
+            for y in alternatives(lambda y : y != x):
+                clause.append(posLiteral(r, y))
+            cnf.append(clause)
+
+    return cnf
+
+
+
+
 if __name__ == '__main__':
     from pylgl import solve, itersolve
 
