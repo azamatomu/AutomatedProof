@@ -2,7 +2,6 @@ from math import factorial
 
 n = 2
 m = 3
-UNIT_COMPREHENSION = True
 
 
 def allVoters():
@@ -113,18 +112,38 @@ def cnfNondictatorial():
 
 
 if __name__ == '__main__':
-    from pylgl import solve
+    from pylgl import solve, itersolve
 
-    if UNIT_COMPREHENSION:
-        print('Permutation on [1, 2, 3] :')
-        for i in range(6):
-            print(f'\tPermutation {i + 1} : {nthPerm(i, [1, 2, 3])}')
+    padding = 60
 
+    # TEST
     cnf = (cnfAtLeastOne() + cnfResolute() + cnfSurjective() +
            cnfStrategyProof() + cnfNondictatorial())
+    assert solve(cnf) == 'UNSAT'
 
-    print(cnf[0])
-    print(len(cnf))
-    print(solve(cnf))
+    # Q1
+    print(' Question 1 '.center(padding, '-'))
 
-    print(f'There are {len(cnfStrategyProof())} strategyproof voting rules.')
+    base = cnfAtLeastOne() + cnfResolute() + cnfStrategyProof()
+
+    cnf = base
+    rules_res_sp = list(itersolve(cnf))
+    print(f'Number of resolute strategy-proof rules : {len(rules_res_sp)}')
+
+    cnf = base + cnfSurjective()
+    rules_res_sp_sur = list(itersolve(cnf))
+    print(f'\tNumber of which are surjective : {len(rules_res_sp_sur)}')
+
+    cnf = base + cnfNondictatorial()
+    rules_res_sp_non = list(itersolve(cnf))
+    print(f'\tNumber of which are dictatorial : {len(rules_res_sp_non)}\n')
+
+    #Q2
+    
+
+
+
+    # print(cnf[0])
+    # print(len(cnf))
+    # print(solve(cnf))
+    # print(f'There are {len(cnfStrategyProof())} strategyproof voting rules.')
