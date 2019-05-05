@@ -135,6 +135,15 @@ def cnfDefinitionQ():
     return cnf
 
 
+def cnfNonimposed():
+    cnf = []
+    for x in allAlternatives():
+        clause = []
+        for r in allProfiles():
+            clause.append(posLiteralUnique(r, x))
+        cnf.append(clause)
+
+    return cnf
 
 
 if __name__ == '__main__':
