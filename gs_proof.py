@@ -174,6 +174,13 @@ if __name__ == '__main__':
     print(f'\tNumber of which are dictatorial : {len(rules_res_sp_non)}\n')
 
     # Q2
+    print(' Question 2 '.center(padding, '-'))
+
+    definition_q = cnfDefinitionQ()
+    non_imposition = cnfNonimposed()
+    print(f'Number of clauses for the definition of q : {len(definition_q)}')
+    print(f'Number of clauses for non-imposition : {len(non_imposition)}')
+
 
     # print(cnf[0])
     # print(len(cnf))
