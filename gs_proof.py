@@ -134,6 +134,43 @@ def cnfDefinitionQ():
 
     return cnf
 
+def notMostPreferred(i, r1, r2, x):
+    pref = nthPerm(preference(i, r1), list(allAlternatives()))
+    x_pos = pref.index(x)
+    cnf_temp = []
+    for i in range(x_pos):
+        cnf_temp.append(posLiteral(r2, pref[i]))
+    cnf_temp.append(negLiteral(r2,pref[x_pos]))
+    return cnf_temp
+
+def notLeastPreferred(i, r1, r2, x):
+    pref = nthPerm(preference(i, r1), list(allAlternatives()))
+    x_pos = pref.index(x)
+    cnf_temp = []
+    for i in range(len(pref)-1-x_pos):
+        cnf_temp.append(posLiteral(r2, pref[len(pref)-1-i]))
+    cnf_temp.append(negLiteral(r2,pref[x_pos]))
+    return cnf_temp
+
+def cnfOptimistProof():
+    cnf = []
+    for i in allVoters():
+        for r1 in allProfiles():
+            for r2 in profiles(lambda r2 : iVariants(i,r1,r2)):
+                for x in allAlternatives():
+                    for y in alternatives(lambda y : prefers(i,x,y,r1)):
+                        cnf.append(notMostPreferred(i, r1, r1, y) + notMostPreferred(i, r1, r2, x))
+    return cnf
+
+def cnfPessimistProof():
+    cnf = []
+    for i in allVoters():
+        for r1 in allProfiles():
+            for r2 in profiles(lambda r2 : iVariants(i,r1,r2)):
+                for x in allAlternatives():
+                    for y in alternatives(lambda y : prefers(i,x,y,r1)):
+                        cnf.append(notLeastPreferred(i, r1, r1, y) + notLeastPreferred(i, r1, r2, x))
+    return cnf
 
 def cnfNonimposed():
     cnf = []
