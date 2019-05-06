@@ -190,6 +190,18 @@ def cnfNonimposed():
     return cnf
 
 
+def cnfStronglyNondictatorial():
+    cnf = []
+    for i in allVoters():
+        clause = []
+        for r in allProfiles():
+            x = list(alternatives(lambda x: top(i, x, r)))[0]
+            clause.append(negLiteral(r, x))
+        cnf.append(clause)
+
+    return cnf
+
+
 if __name__ == '__main__':
     from pylgl import solve, itersolve
 
@@ -232,7 +244,9 @@ if __name__ == '__main__':
     print(
         f'Number of clauses for the immunity against pessimistic voters : {len(pessimistic)}')
 
-    
+    strongly_non_dictatorial = cnfStronglyNondictatorial()
+    print(
+        f'Number of clauses for strong non-dictatoriality : {len(strongly_non_dictatorial)}')
 
     # print(cnf[0])
     # print(len(cnf))
