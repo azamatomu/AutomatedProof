@@ -246,9 +246,32 @@ if __name__ == '__main__':
 
     strongly_non_dictatorial = cnfStronglyNondictatorial()
     print(
-        f'Number of clauses for strong non-dictatoriality : {len(strongly_non_dictatorial)}')
+        f'Number of clauses for strong non-dictatoriality : {len(strongly_non_dictatorial)}\n')
 
-    # print(cnf[0])
-    # print(len(cnf))
-    # print(solve(cnf))
-    # print(f'There are {len(cnfStrategyProof())} strategyproof voting rules.')
+    base = cnfAtLeastOne()
+    cnf = (base + cnfDefinitionQ() + cnfNonimposed() +
+           cnfOptimistProof() + cnfPessimistProof() + cnfStronglyNondictatorial())
+    assert solve(cnf) == 'UNSAT'
+
+    cnf = base + cnfDefinitionQ() + cnfNonimposed() + \
+        cnfOptimistProof() + cnfPessimistProof()
+    solutions = list(itersolve(cnf))
+    print(f'Number of non-imposed immune rules : {len(solutions)}')
+
+    # cnf = base + cnfDefinitionQ() + cnfNonimposed() + cnfOptimistProof() + \
+    #     cnfStronglyNondictatorial()
+    # solutions = list(itersolve(cnf))
+    # print(
+    #     f'Number of non-imposed strongly non-dictatorial rules only immune to optimistic voters : {len(solutions)}')
+
+    # cnf = base + cnfDefinitionQ() + cnfNonimposed() + cnfPessimistProof() + \
+    #     cnfStronglyNondictatorial()
+    # solutions = list(itersolve(cnf))
+    # print(
+    #     f'Number of non-imposed strongly non-dictatorial rules only immune to pessimistic voters : {len(solutions)}')
+
+    cnf = base + cnfOptimistProof() + cnfPessimistProof() + \
+        cnfStronglyNondictatorial()
+    solutions = list(itersolve(cnf))
+    print(
+        f'Number of immune strongly non-dictatorial rules : {len(solutions)}')
